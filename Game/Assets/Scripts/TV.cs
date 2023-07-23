@@ -41,7 +41,6 @@ public class TV : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(_waypointManager.GiantsLap + " " + _waypointManager.getCurrentLap());
 	    if (_waypointManager.getCurrentLap() == _waypointManager.GiantsLap && !_giantsActivated) {
             Activate(GiantsMovie, GiantsAudio);
             audioSource.volume = 1;
