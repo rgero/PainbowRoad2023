@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bumpers : MonoBehaviour {
 
-    public float Force = 10000;
+    private float Force = 10;
 
 	// Use this for initialization
 	void Start () {
