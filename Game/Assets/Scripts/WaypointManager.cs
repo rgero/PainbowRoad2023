@@ -14,8 +14,8 @@ public class WaypointManager : MonoBehaviour {
 	public GameObject startWaypoint;
 	public Text lapCounter;
     public int TotalLaps = 3;
-    public int GiantsLap = 2;
-    public int FinalLap = 3;
+    public int GiantsLap {get; private set;}
+    public int FinalLap {get; private set;}
     public LevelManager LevelManager;
     public string VictoryScene;
 
@@ -30,6 +30,9 @@ public class WaypointManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		GiantsLap = 2;
+		FinalLap = 3;
+
 		lastWaypoint = null;
 		lastRotation = new Vector3();
 
