@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Video;
 
 public class TV : MonoBehaviour {
@@ -16,7 +16,6 @@ public class TV : MonoBehaviour {
     AudioSource bgm;
     private VideoPlayer videoPlayer;
     AudioSource audioSource;
-    private Renderer renderer;
 
     // Use this for initialization
     void Start() {
@@ -24,15 +23,15 @@ public class TV : MonoBehaviour {
         videoPlayer = GetComponent<VideoPlayer>();
         audioSource = GetComponent<AudioSource>();
         bgm = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        renderer = GetComponent<Renderer>();
+
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
     }
 
     void Activate(VideoClip movie, AudioClip clip)
     {
-        renderer.materials = new[] { BlankMat, VideoMat };
         audioSource.Stop();
-        audioSource.clip = clip;
 
+        audioSource.clip = clip;
         videoPlayer.clip = movie;
 
         videoPlayer.Play();
@@ -42,6 +41,7 @@ public class TV : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	    if (_waypointManager.getCurrentLap() == _waypointManager.GiantsLap && !_giantsActivated) {
+            this.gameObject.GetComponent<MeshRenderer>().enabled = true;
             Activate(GiantsMovie, GiantsAudio);
             audioSource.volume = 1;
             audioSource.spatialBlend = 1;

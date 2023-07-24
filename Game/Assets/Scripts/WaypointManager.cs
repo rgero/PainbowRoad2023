@@ -44,7 +44,6 @@ public class WaypointManager : MonoBehaviour {
 		foreach(Transform i in childrenOfTrack){
 			
 			if (i.name.Equals ("Waypoint") && !i.transform.parent.name.Equals("Start")) {
-				Debug.Log ("Added waypoint: " + i.transform.parent.name);
 				totalWaypoints++;
 				waypointList.Add (i.GetComponent<BoxCollider> ());
 			}
