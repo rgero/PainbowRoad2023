@@ -24,12 +24,25 @@ public class TV : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         bgm = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
-        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        // Disable the TVs on start. I don't want them showing up in the sky.
+        SetEnabled(false);
+    }
+
+    void SetEnabled(bool enabledStatus)
+    {
+        this.gameObject.GetComponent<MeshRenderer>().enabled = enabledStatus;
+        foreach(Transform child in this.gameObject.transform)
+        {
+
+            child.gameObject.SetActive(enabledStatus);
+        }
     }
 
     void Activate(VideoClip movie, AudioClip clip)
     {
         audioSource.Stop();
+
+        SetEnabled(true);
 
         audioSource.clip = clip;
         videoPlayer.clip = movie;
@@ -41,7 +54,6 @@ public class TV : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	    if (_waypointManager.getCurrentLap() == _waypointManager.GiantsLap && !_giantsActivated) {
-            this.gameObject.GetComponent<MeshRenderer>().enabled = true;
             Activate(GiantsMovie, GiantsAudio);
             audioSource.volume = 1;
             audioSource.spatialBlend = 1;
