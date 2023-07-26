@@ -30,7 +30,7 @@ public class WaypointManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GiantsLap = 1;
+		GiantsLap = 2;
 		FinalLap = 3;
 
 		lastWaypoint = null;
