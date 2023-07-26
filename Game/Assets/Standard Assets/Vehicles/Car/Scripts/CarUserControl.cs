@@ -26,9 +26,7 @@ namespace UnityStandardAssets.Vehicles.Car
         {
             // pass the input to the car!
 			int reverse = ((isReversed) ? -1:1);
-			//Debug.Log (isReversed);
-			//Debug.Log (reverse);
-
+            
 			float h = CrossPlatformInputManager.GetAxis("Horizontal") * ((isReversed) ? -1:1) ;
 			float rightTrigger = CrossPlatformInputManager.GetAxis ("GasPedal");
 			float leftTrigger = CrossPlatformInputManager.GetAxis ("BrakePedal");
