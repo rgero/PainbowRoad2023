@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Threading;
 
 public class Chat : MonoBehaviour
 {
@@ -24,7 +25,8 @@ public class Chat : MonoBehaviour
 	private bool stopThreads = false;
 	private Queue<string> commandQueue = new Queue<string>();
 	private List<string> recievedMsgs = new List<string>();
-	private System.Threading.Thread inProc, outProc;
+	private Thread inProc, outProc;
+
 	private void StartIRC()
 	{
 		System.Net.Sockets.TcpClient sock = new System.Net.Sockets.TcpClient();
@@ -50,6 +52,7 @@ public class Chat : MonoBehaviour
 		inProc = new System.Threading.Thread(() => IRCInputProcedure(input, networkStream));
 		inProc.Start();
 	}
+
 	private void IRCInputProcedure(System.IO.TextReader input, System.Net.Sockets.NetworkStream networkStream)
 	{
 		while (!stopThreads)
@@ -81,6 +84,7 @@ public class Chat : MonoBehaviour
 			}
 		}
 	}
+
 	private void IRCOutputProcedure(System.IO.TextWriter output)
 	{
 		System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
@@ -116,6 +120,7 @@ public class Chat : MonoBehaviour
 			commandQueue.Enqueue(cmd);
 		}
 	}
+
 	public void SendMsg(string msg)
 	{
 		lock (commandQueue)
@@ -135,15 +140,15 @@ public class Chat : MonoBehaviour
 			return;
 		}
 
-		//if (message.ToLower().Contains ("flip")) {
-		//	prankManagerScript.addToQueue ("flipper");
-		//}
-		//if (message.ToLower().Contains("disappear")){
-		//	prankManagerScript.addToQueue ("trackdisappear");
-		//}
-		//if (message.ToLower().Contains("reverse")){
-		//	prankManagerScript.addToQueue("reversecontrols");
-		//}
+		if (message.ToLower().Contains ("flip")) {
+			prankManagerScript.addToQueue ("flipper");
+		}
+		if (message.ToLower().Contains("disappear")){
+			prankManagerScript.addToQueue ("trackdisappear");
+		}
+		if (message.ToLower().Contains("reverse")){
+			prankManagerScript.addToQueue("reversecontrols");
+		}
 		if (message.ToLower ().StartsWith ("!say ")) {
 			message = message.Substring ("!say ".Length);
 			tcb.addToMessageQueue (message);
@@ -155,6 +160,7 @@ public class Chat : MonoBehaviour
 	//MonoBehaviour Events.
 	void Start()
 	{
+		// I need to think about how to distribute authentication since storing it publicly would be stupid.
 		prankManagerScript = prankManager.GetComponent<PrankManager> ();
 		tcb = prankManager.GetComponent<TextChatBoxSpawner> ();
 	}
@@ -164,20 +170,17 @@ public class Chat : MonoBehaviour
 		stopThreads = false;
 		StartIRC();
 	}
+
 	void OnDisable()
 	{
 		stopThreads = true;
-		//while (inProc.IsAlive || outProc.IsAlive) ;
-		//print("inProc:" + inProc.IsAlive.ToString());
-		//print("outProc:" + outProc.IsAlive.ToString());
 	}
+
 	void OnDestroy()
 	{
 		stopThreads = true;
-		//while (inProc.IsAlive || outProc.IsAlive) ;
-		//print("inProc:" + inProc.IsAlive.ToString());
-		//print("outProc:" + outProc.IsAlive.ToString());
 	}
+
 	void Update()
 	{
 		lock (recievedMsgs)
