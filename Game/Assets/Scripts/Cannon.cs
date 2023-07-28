@@ -5,6 +5,7 @@ public class Cannon : MonoBehaviour {
 
     public float SecondsBetweenShots = 1;
     public GameObject ThingToShoot;
+    public Transform Container;
     public bool MotionActivated = true;
     public float ShotVelocity = 25;
 
@@ -45,6 +46,8 @@ public class Cannon : MonoBehaviour {
     void Fire() {
         GameObject bullet = Instantiate(ThingToShoot, transform.position, ThingToShoot.transform.rotation) as GameObject;
         bullet.GetComponent<Rigidbody>().velocity = transform.forward * ShotVelocity;
+
+        bullet.transform.SetParent(Container, true);
     }
 
     void OnDrawGizmosSelected() {

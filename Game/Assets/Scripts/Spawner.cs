@@ -5,6 +5,7 @@ public class Spawner : MonoBehaviour {
 
     public float SecondsBetweenSpawns = 15;
     public GameObject ThingToSpawn;
+    public Transform Container;
     public bool MotionActivated = false;
     public bool Powered = true;
     public bool ScaleSpawnedThings = false;
@@ -51,6 +52,7 @@ public class Spawner : MonoBehaviour {
 
     void Spawn() {
         var thingie = (GameObject)Instantiate(ThingToSpawn, transform.position, ThingToSpawn.transform.rotation);
+        thingie.transform.SetParent(Container, true);
         if (ScaleSpawnedThings) {
             thingie.transform.localScale = SpawnedThingScale;
         }
